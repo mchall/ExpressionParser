@@ -100,6 +100,13 @@ namespace ExpressionParser.Tests
 			return result.DynamicInvoke(dummy);
 		}
 
+		[TestCase("IntProperty == 42.0", ExpectedResult = true)]
+		public object ExpressionParser_ParseFor_WithValid_TypeConversion_ShouldPass(string input)
+		{
+			var result = ExpressionParser.ParseFor<SomeDummy>(input);
+			return result.DynamicInvoke(dummy);
+		}
+
 		[TestCase("StringProperty ?? \"ABC\"", ExpectedResult = "Hello")]
 		[TestCase("NullProperty ?? \"ABC\"", ExpectedResult = "ABC")]
 		[TestCase("NullProperty?.Length ?? 4", ExpectedResult = 4)]

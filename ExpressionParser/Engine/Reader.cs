@@ -70,11 +70,6 @@ namespace ExpressionParser.Engine
 			return TryCreateToken(input.Substring(characterPosition), @"^""[^""]*""", a => new LiteralToken<string>(a.Trim('"')));
 		}
 
-		private bool FindDecimal(string input)
-		{
-			return TryCreateToken(input.Substring(characterPosition), @"^((\d*\.\d+)|(\d+\.\d*))", a => new LiteralToken<decimal>(Convert.ToDecimal(a)));
-		}
-
 		private bool FindDouble(string input)
 		{
 			return TryCreateToken(input.Substring(characterPosition), @"^((\d*\.\d+)|(\d+\.\d*))", a => new LiteralToken<double>(double.Parse(a, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture)));
