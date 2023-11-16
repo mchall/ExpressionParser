@@ -36,6 +36,8 @@ namespace ExpressionParser.Model
 			{"/", () => new DivideNode()},
 			{"%", () => new ModuloNode()},
 			{".", () => new DotNode()},
+			{"?", () => new TernaryNode()},
+			{":", null},
 			{"[", null},
 			{"]", null},
 			{",", null},

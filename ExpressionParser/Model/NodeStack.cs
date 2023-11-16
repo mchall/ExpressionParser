@@ -13,24 +13,39 @@ namespace ExpressionParser.Model
 		{
 			if (!this.Any())
 				Push(node);
-			else switch (node) {
-				case BinaryNode binaryNode when binaryNode.IsClosed:
-					AttachNodeToRoot(node);
-					break;
-				case BinaryNode binaryNode when Peek() is BinaryNode root && root.Precedence <= binaryNode.Precedence:
-					AttachRootToNodeLeft(binaryNode);
-					break;
-				case BinaryNode binaryNode when Peek() is BinaryNode root:
-					MoveRootRightToNodeLeft(root, binaryNode);
-					AttachNodeToRootRight(root, binaryNode);
-					break;
-				case BinaryNode binaryNode:
-					AttachRootToNodeLeft(binaryNode);
-					break;
-				default:
-					AttachNodeToRoot(node);
-					break;
-			}
+			else switch (node)
+				{
+					case BinaryNode binaryNode when binaryNode.IsClosed:
+						AttachNodeToRoot(node);
+						break;
+					case BinaryNode binaryNode when Peek() is BinaryNode root && root.Precedence <= binaryNode.Precedence:
+						AttachRootToNodeLeft(binaryNode);
+						break;
+					case BinaryNode binaryNode when Peek() is BinaryNode root:
+						MoveRootRightToNodeLeft(root, binaryNode);
+						AttachNodeToRootRight(root, binaryNode);
+						break;
+					case BinaryNode binaryNode:
+						AttachRootToNodeLeft(binaryNode);
+						break;
+
+					case TernaryNode ternaryNode when ternaryNode.IsClosed:
+						AttachNodeToRoot(node);
+						break;
+					case TernaryNode ternaryNode when Peek() is TernaryNode root && root.Precedence <= ternaryNode.Precedence:
+						AttachRootToNodeLeft(ternaryNode);
+						break;
+					case TernaryNode ternaryNode when Peek() is TernaryNode root:
+						AttachNodeToRootRight(root, ternaryNode);
+						break;
+					case TernaryNode ternaryNode:
+						AttachRootToNodeLeft(ternaryNode);
+						break;
+
+					default:
+						AttachNodeToRoot(node);
+						break;
+				}
 			LastAdded = node;
 		}
 
@@ -54,6 +69,17 @@ namespace ExpressionParser.Model
 		{
 			node.Left = Pop();
 			Push(node);
+		}
+
+		private void AttachRootToNodeLeft(TernaryNode node)
+		{
+			node.Test = Pop();
+			Push(node);
+		}
+
+		private static void AttachNodeToRootRight(TernaryNode root, Node node)
+		{
+			root.True = node;
 		}
 	}
 }

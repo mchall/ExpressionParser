@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ExpressionParser</RootNamespace>
     <AssemblyName>ExpressionParser</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -68,6 +68,7 @@
     <Compile Include="Model\Nodes\ModuloNode.cs" />
     <Compile Include="Model\Nodes\MultiplyNode.cs" />
     <Compile Include="Model\Nodes\NullPropagationNode.cs" />
+    <Compile Include="Model\Nodes\TernaryNode.cs" />
     <Compile Include="Model\Nodes\TypeAsNode.cs" />
     <Compile Include="Model\Nodes\TypeCastNode.cs" />
     <Compile Include="Model\Nodes\TypeIsNode.cs" />
@@ -99,9 +100,6 @@
     <Compile Include="Model\Tokens\Token.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Engine\Reader.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ExpressionParser.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -11,5 +11,6 @@ namespace ExpressionParser.Model.Tokens
 		internal virtual bool StartsExpressionOrParameters => false;
 		internal virtual bool EndsExpressionOrParameters => false;
 		internal virtual bool IsParameterSeparator => false;
+		internal virtual bool IsConditionalSeperator => false;
 	}
 }

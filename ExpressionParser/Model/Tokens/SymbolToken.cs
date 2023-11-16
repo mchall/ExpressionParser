@@ -15,5 +15,6 @@ namespace ExpressionParser.Model.Tokens
 		internal override bool StartsExpressionOrParameters => Symbol == "(";
 		internal override bool IsParameterSeparator => Symbol == ",";
 		internal override bool EndsExpressionOrParameters => Symbol == ")";
+        internal override bool IsConditionalSeperator => Symbol == ":";
 	}
 }

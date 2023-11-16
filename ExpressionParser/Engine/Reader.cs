@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using ExpressionParser.Model;
@@ -11,9 +13,16 @@ namespace ExpressionParser.Engine
 	{
 		private readonly TokenList result = new TokenList();
 		private int characterPosition;
-		private static readonly IDictionary<string, Type> availableTypes = new Dictionary<string, Type>(Keywords.BuiltInTypes);
+		private static readonly ConcurrentDictionary<string, Type> availableTypes = new ConcurrentDictionary<string, Type>(Keywords.BuiltInTypes);
 
-		internal static void AddTypeMap(string alias, Type type) => availableTypes[alias ?? type?.Name ?? throw new ArgumentNullException(nameof(type))] = type;
+		internal static void AddTypeMap(string alias, Type type)
+		{
+			var key = alias ?? type.Name ?? throw new ArgumentNullException(nameof(type));
+			if (!availableTypes.ContainsKey(key))
+			{
+				availableTypes.TryAdd(key, type);
+			}
+		}
 
 		public TokenList ReadFrom(string input)
 		{
@@ -30,7 +39,7 @@ namespace ExpressionParser.Engine
 
 		private bool FindValidToken(string input)
 		{
-			return FindWhiteSpace(input) || FindChar(input) || FindString(input) || FindDecimal(input) || FindInteger(input) || FindToken(input) || FindCandidate(input);
+			return FindWhiteSpace(input) || FindChar(input) || FindString(input) || FindDouble(input) || FindInteger(input) || FindToken(input) || FindCandidate(input);
 		}
 
 		private bool FindWhiteSpace(string input)
@@ -65,6 +74,12 @@ namespace ExpressionParser.Engine
 		{
 			return TryCreateToken(input.Substring(characterPosition), @"^((\d*\.\d+)|(\d+\.\d*))", a => new LiteralToken<decimal>(Convert.ToDecimal(a)));
 		}
+
+		private bool FindDouble(string input)
+		{
+			return TryCreateToken(input.Substring(characterPosition), @"^((\d*\.\d+)|(\d+\.\d*))", a => new LiteralToken<double>(double.Parse(a, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture)));
+		}
+
 		private bool FindInteger(string input)
 		{
 			return TryCreateToken(input.Substring(characterPosition), @"^\d+", a => new LiteralToken<int>(Convert.ToInt32(a)));

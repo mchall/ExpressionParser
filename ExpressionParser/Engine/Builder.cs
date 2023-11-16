@@ -36,6 +36,8 @@ namespace ExpressionParser.Engine
 				} else if (tokens.Current.StartsIndex) {
 					tokens.MoveNext();
 					ProcessIndex(tokens, nodes);
+				} else if (tokens.Current.IsConditionalSeperator) { 
+					//do nothing
 				} else {
 					nodes.Add(tokens.Current.CreateNode());
 				}

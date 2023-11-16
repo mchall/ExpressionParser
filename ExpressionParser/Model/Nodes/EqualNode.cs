@@ -8,7 +8,9 @@ namespace ExpressionParser.Model.Nodes
 
 		internal override Expression BuildExpression(Expression callerExpression = null)
 		{
-			return Expression.Equal(Left.BuildExpression(callerExpression), Right.BuildExpression(callerExpression));
+			Expression left, right;
+			BuildAndConvert(callerExpression, out left, out right);
+			return Expression.Equal(left, right);
 		}
 	}
 }
