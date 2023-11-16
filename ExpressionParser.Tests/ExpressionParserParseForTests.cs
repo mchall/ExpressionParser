@@ -92,6 +92,14 @@ namespace ExpressionParser.Tests
 			return result(dummy);
 		}
 
+		[TestCase("IntProperty == 42 ? 1 : 2", ExpectedResult = 1)]
+		[TestCase("IntProperty != 42 ? 1 : 2", ExpectedResult = 2)]
+		public object ExpressionParser_ParseFor_WithValid_TernaryOperators_ShouldPass(string input)
+		{
+			var result = ExpressionParser.ParseFor<SomeDummy>(input);
+			return result.DynamicInvoke(dummy);
+		}
+
 		[TestCase("StringProperty ?? \"ABC\"", ExpectedResult = "Hello")]
 		[TestCase("NullProperty ?? \"ABC\"", ExpectedResult = "ABC")]
 		[TestCase("NullProperty?.Length ?? 4", ExpectedResult = 4)]
